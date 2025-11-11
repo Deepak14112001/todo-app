@@ -1,9 +1,19 @@
 <div class="field-container">
-  <label>{{ label }}</label>
+  <!-- Label with required mark -->
+  <label>
+    {{ label }} <span *ngIf="control?.hasValidator(requiredValidator)">*</span>
+  </label>
+
+  <!-- Input field -->
   <input
     [type]="type"
     [placeholder]="placeholder"
     class="field-input"
     [formControl]="control"
   />
+
+  <!-- Error message below input -->
+  <div class="error-message" *ngIf="control?.touched && control?.invalid">
+    {{ label }} is required
+  </div>
 </div>

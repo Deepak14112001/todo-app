@@ -1,20 +1,29 @@
+<!-- Main container for task list -->
 <div class="task-card">
+
+  <!-- Header section -->
   <div class="task-header">
+
+    <!-- Title and icon -->
     <div class="task-title">
       <mat-icon class="task-icon">view_list</mat-icon>
       <div>
         <h3>Tasks</h3>
         <p>All Tasks</p>
-        <span class="record-count">{{ filteredTasks.length }} records</span>
+        <span class="record-count">{{ filteredTasks.length }} records</span> <!-- Show number of tasks -->
       </div>
     </div>
 
+    <!-- Action buttons and search -->
     <div class="task-actions">
+
+      <!-- New Task & Refresh buttons -->
       <div class="button-row">
         <button class="btn btn-primary" (click)="showForm = true">New Task</button>
         <button class="btn btn-secondary" (click)="refresh()">Refresh</button>
       </div>
 
+      <!-- Search bar -->
       <div class="search-row">
         <input
           type="text"
@@ -24,9 +33,11 @@
         />
         <mat-icon class="search-icon">search</mat-icon>
       </div>
+
     </div>
   </div>
 
+  <!-- Task table -->
   <table class="task-table">
     <thead>
       <tr>
@@ -40,6 +51,7 @@
     </thead>
 
     <tbody>
+      <!-- Loop through filtered tasks -->
       <tr *ngFor="let task of filteredTasks">
         <td><input type="checkbox" /></td>
         <td class="link">{{ task.assignedTo }}</td>
@@ -48,6 +60,7 @@
         <td>{{ task.priority }}</td>
         <td class="comments-cell">
           {{ task.comments }}
+          <!-- Dropdown for Edit/Delete actions -->
           <div class="dropdown">
             <button class="dropdown-btn">⋮</button>
             <div class="dropdown-content">
@@ -60,6 +73,7 @@
     </tbody>
   </table>
 
+  <!-- Pagination controls -->
   <div class="pagination">
     <select>
       <option>20</option>
@@ -75,6 +89,7 @@
     </div>
   </div>
 
+  <!-- Task form popup -->
   <app-task-form
     *ngIf="showForm"
     [task]="editingTask"
@@ -82,12 +97,13 @@
     (cancel)="closeForm()"
   ></app-task-form>
 
+  <!-- Confirm delete popup -->
   <app-confirm-dialog
-  [show]="showConfirm"
-  title="Delete"
-  [message]="'Do you want to delete task ' + (taskToDelete?.assignedTo || '') + '?'"
-  (confirm)="confirmDelete()"
-  (cancel)="cancelDelete()">
-</app-confirm-dialog>
+    [show]="showConfirm"
+    title="Delete"
+    [message]="'Do you want to delete task ' + (taskToDelete?.assignedTo || '') + '?'"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-confirm-dialog>
 
 </div>

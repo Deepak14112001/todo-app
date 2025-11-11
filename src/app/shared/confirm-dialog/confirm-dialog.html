@@ -1,14 +1,27 @@
+<!-- Overlay shown only when 'show' is true -->
 <div class="confirm-overlay" *ngIf="show">
+
+  <!-- Main confirmation box -->
   <div class="confirm-box">
+
+    <!-- Header section with title -->
     <div class="confirm-header">
-      <h3>{{ title }}</h3>
+      <h3>{{ title }}</h3> <!-- Display dynamic title passed from parent component -->
     </div>
+
+    <!-- Body section with message -->
     <div class="confirm-body">
-      <p>{{ message }}</p>
+      <p>{{ message }}</p> <!-- Display dynamic message passed from parent component -->
     </div>
+
+    <!-- Action buttons -->
     <div class="confirm-actions">
+      <!-- Cancel button triggers onCancel() in component -->
       <button class="no-btn" (click)="onCancel()">No</button>
+
+      <!-- Confirm button triggers onConfirm() in component -->
       <button class="yes-btn" (click)="onConfirm()">Yes</button>
     </div>
+
   </div>
 </div>

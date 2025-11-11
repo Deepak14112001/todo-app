@@ -1,8 +1,13 @@
+<!-- Container for the task form -->
 <div class="task-form-container">
   <h2 class="form-title">Add New Task</h2>
 
+  <!-- Angular reactive form -->
   <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+
     <div class="form-grid">
+
+      <!-- First row: Assigned To and Status fields -->
       <div class="form-row">
         <app-textfield
           label="Assigned To"
@@ -17,6 +22,7 @@
         </app-textfield>
       </div>
 
+      <!-- Second row: Due Date and Priority fields -->
       <div class="form-row">
         <app-date-field
           label="Due Date"
@@ -30,6 +36,7 @@
         </app-textfield>
       </div>
 
+      <!-- Third row: Comments field -->
       <div class="form-row">
         <app-textfield
           label="Comments"
@@ -38,10 +45,12 @@
         </app-textfield>
       </div>
 
+      <!-- Action buttons -->
       <div class="button-row">
-        <button class="save-btn" type="submit">Save</button>
-        <button class="cancel-btn" type="button" (click)="onCancel()">Cancel</button>
+        <button class="save-btn" type="submit">Save</button> <!-- Submits the form -->
+        <button class="cancel-btn" type="button" (click)="onCancel()">Cancel</button> <!-- Cancels editing -->
       </div>
+
     </div>
   </form>
 </div>

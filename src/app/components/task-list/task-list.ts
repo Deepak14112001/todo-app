@@ -9,34 +9,35 @@ import { ConfirmDialog } from '../../shared/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-task-list',
-  imports: [TaskForm,CommonModule,FormsModule,MatIconModule,ConfirmDialog],
+  imports: [TaskForm, CommonModule, FormsModule, MatIconModule, ConfirmDialog],
   templateUrl: './task-list.html',
   styleUrl: './task-list.scss',
 })
-export class TaskList{
-   tasks: Task[] = [];
-  filteredTasks: Task[] = [];
-  searchTerm: string = '';
-  showForm = false;
-  editingTask: Task | null = null;
+export class TaskList implements OnInit {
+  tasks: Task[] = [];               // All tasks
+  filteredTasks: Task[] = [];       // Filtered tasks for search
+  searchTerm: string = '';           // Search input
+  showForm = false;                  // Controls task form visibility
+  editingTask: Task | null = null;   // Task currently being edited
 
-  // 👇 new properties for delete popup
-  showConfirm = false;
-  taskToDelete: Task | null = null;
+  showConfirm = false;               // Delete confirmation popup
+  taskToDelete: Task | null = null;  // Task selected for deletion
 
   constructor(private taskService: TaskService) {}
 
   ngOnInit() {
-    this.loadTasks();
+    this.loadTasks(); // Load tasks on component init
   }
 
+  // Fetch tasks from service
   loadTasks() {
     this.taskService.getTasks().subscribe(data => {
       this.tasks = data;
-      this.filteredTasks = [...this.tasks];
+      this.filteredTasks = [...this.tasks]; // Copy for filtering
     });
   }
 
+  // Search/filter tasks
   search() {
     const term = this.searchTerm.toLowerCase();
     this.filteredTasks = this.tasks.filter(task =>
@@ -47,36 +48,37 @@ export class TaskList{
     );
   }
 
+  // Open form to edit task
   editTask(task: Task) {
-  this.editingTask = { ...task };   // clone task to edit
-  this.showForm = true;
-}
-
-addTask(task: Task) {
-  if (this.editingTask) {
-    // ✅ Update existing
-    this.taskService.updateTask({ ...task, id: this.editingTask.id }).subscribe(() => {
-      this.loadTasks();
-      this.closeForm();
-    });
-  } else {
-    // ✅ Add new — remove id before sending
-    const { id, ...taskWithoutId } = task; // <--- removes null id
-    this.taskService.addTask(taskWithoutId).subscribe(() => {
-      this.loadTasks();
-      this.closeForm();
-    });
+    this.editingTask = { ...task }; // Clone task
+    this.showForm = true;
   }
-}
 
+  // Add new task or update existing task
+  addTask(task: Task) {
+    if (this.editingTask) {
+      // Update existing
+      this.taskService.updateTask({ ...task, id: this.editingTask.id }).subscribe(() => {
+        this.loadTasks();
+        this.closeForm();
+      });
+    } else {
+      // Add new task (remove id if null)
+      const { id, ...taskWithoutId } = task;
+      this.taskService.addTask(taskWithoutId).subscribe(() => {
+        this.loadTasks();
+        this.closeForm();
+      });
+    }
+  }
 
-
-  // 🧠 new popup delete logic
+  // Show delete confirmation popup
   deleteTask(task: Task) {
     this.taskToDelete = task;
     this.showConfirm = true;
   }
 
+  // Confirm deletion
   confirmDelete() {
     if (this.taskToDelete) {
       this.taskService.deleteTask(this.taskToDelete.id!).subscribe(() => {
@@ -87,16 +89,19 @@ addTask(task: Task) {
     }
   }
 
+  // Cancel deletion
   cancelDelete() {
     this.showConfirm = false;
     this.taskToDelete = null;
   }
 
+  // Close task form
   closeForm() {
     this.showForm = false;
     this.editingTask = null;
   }
 
+  // Refresh tasks
   refresh() {
     this.loadTasks();
   }
