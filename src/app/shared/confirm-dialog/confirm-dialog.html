@@ -1,0 +1,14 @@
+<div class="confirm-overlay" *ngIf="show">
+  <div class="confirm-box">
+    <div class="confirm-header">
+      <h3>{{ title }}</h3>
+    </div>
+    <div class="confirm-body">
+      <p>{{ message }}</p>
+    </div>
+    <div class="confirm-actions">
+      <button class="no-btn" (click)="onCancel()">No</button>
+      <button class="yes-btn" (click)="onConfirm()">Yes</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<div class="task-card">
+  <div class="task-header">
+    <div class="task-title">
+      <mat-icon class="task-icon">view_list</mat-icon>
+      <div>
+        <h3>Tasks</h3>
+        <p>All Tasks</p>
+        <span class="record-count">{{ filteredTasks.length }} records</span>
+      </div>
+    </div>
+
+    <div class="task-actions">
+      <div class="button-row">
+        <button class="btn btn-primary" (click)="showForm = true">New Task</button>
+        <button class="btn btn-secondary" (click)="refresh()">Refresh</button>
+      </div>
+
+      <div class="search-row">
+        <input
+          type="text"
+          placeholder="Search"
+          [(ngModel)]="searchTerm"
+          (input)="search()"
+        />
+        <mat-icon class="search-icon">search</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <table class="task-table">
+    <thead>
+      <tr>
+        <th><input type="checkbox" /></th>
+        <th>Assigned To</th>
+        <th>Status</th>
+        <th>Due Date</th>
+        <th>Priority</th>
+        <th>Comments</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let task of filteredTasks">
+        <td><input type="checkbox" /></td>
+        <td class="link">{{ task.assignedTo }}</td>
+        <td>{{ task.status }}</td>
+        <td>{{ task.dueDate | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ task.priority }}</td>
+        <td class="comments-cell">
+          {{ task.comments }}
+          <div class="dropdown">
+            <button class="dropdown-btn">⋮</button>
+            <div class="dropdown-content">
+              <a (click)="editTask(task)">Edit</a>
+              <a (click)="deleteTask(task)">Delete</a>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <select>
+      <option>20</option>
+      <option>50</option>
+      <option>100</option>
+    </select>
+    <div class="pager">
+      <button>&lt; First</button>
+      <button>&lt; Prev</button>
+      <span>1</span>
+      <button>Next &gt;</button>
+      <button>Last &gt;</button>
+    </div>
+  </div>
+
+  <app-task-form
+    *ngIf="showForm"
+    [task]="editingTask"
+    (save)="addTask($event)"
+    (cancel)="closeForm()"
+  ></app-task-form>
+
+  <app-confirm-dialog
+  [show]="showConfirm"
+  title="Delete"
+  [message]="'Do you want to delete task ' + (taskToDelete?.assignedTo || '') + '?'"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()">
+</app-confirm-dialog>
+
+</div>

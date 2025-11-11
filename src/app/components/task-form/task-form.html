@@ -1,0 +1,47 @@
+<div class="task-form-container">
+  <h2 class="form-title">Add New Task</h2>
+
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <div class="form-row">
+        <app-textfield
+          label="Assigned To"
+          placeholder="Enter name"
+          [control]="assignedTo">
+        </app-textfield>
+
+        <app-textfield
+          label="Status"
+          placeholder="Enter status"
+          [control]="status">
+        </app-textfield>
+      </div>
+
+      <div class="form-row">
+        <app-date-field
+          label="Due Date"
+          [control]="dueDate">
+        </app-date-field>
+
+        <app-textfield
+          label="Priority"
+          placeholder="Enter priority"
+          [control]="priority">
+        </app-textfield>
+      </div>
+
+      <div class="form-row">
+        <app-textfield
+          label="Comments"
+          placeholder="Enter comments"
+          [control]="comments">
+        </app-textfield>
+      </div>
+
+      <div class="button-row">
+        <button class="save-btn" type="submit">Save</button>
+        <button class="cancel-btn" type="button" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
